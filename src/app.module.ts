@@ -5,6 +5,10 @@ import { MoviesModule } from './movies/movies.module';
 import { ActorsModule } from './actors/actors.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { getConnectionOptions } from 'typeorm';
+import { DirectorsModule } from './directors/directors.module';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
+import { ListsModule } from './lists/lists.module';
 
 @Module({
   imports: [
@@ -17,6 +21,10 @@ import { getConnectionOptions } from 'typeorm';
     }),
     MoviesModule,
     ActorsModule,
+    DirectorsModule,
+    AuthModule,
+    UsersModule,
+    ListsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
