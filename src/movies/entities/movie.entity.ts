@@ -5,12 +5,14 @@ import {
   JoinTable,
   ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { Genre } from './genre.entity';
 import { Actor } from 'src/actors/entities/actor.entity';
 import { Director } from 'src/directors/entities/director.entity';
+import { MovieList } from './movie-list.entity';
 
 @Entity()
 export class Movie {
@@ -46,6 +48,9 @@ export class Movie {
 
   @ManyToMany(() => Genre, (genre) => genre.movies)
   genres: Genre[];
+
+  @OneToMany(() => MovieList, (movie_list) => movie_list.movie)
+  movie_list: MovieList;
 
   @ManyToMany(() => Actor, (actor) => actor.movies, {
     cascade: true,
