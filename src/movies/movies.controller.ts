@@ -6,17 +6,24 @@ import {
   Param,
   ParseIntPipe,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { MoviesService } from './movies.service';
 import { CreateMovieDto } from './dto/create-movie.dto';
+import { SearchQueryDto } from './dto/search-query.dto';
 
 @ApiTags('movie')
 @Controller('movies')
 export class MoviesController {
   constructor(private readonly moviesService: MoviesService) {}
+
+  @Get('search')
+  search(@Query() searchQueryDto: SearchQueryDto) {
+    return this.moviesService.search(searchQueryDto);
+  }
 
   @UseGuards(AuthGuard('jwt'))
   @Get(':id')
