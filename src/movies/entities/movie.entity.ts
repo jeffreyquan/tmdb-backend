@@ -13,6 +13,7 @@ import { Genre } from './genre.entity';
 import { Actor } from 'src/actors/entities/actor.entity';
 import { Director } from 'src/directors/entities/director.entity';
 import { MovieList } from './movie-list.entity';
+import { Optional } from '@nestjs/common';
 
 @Entity()
 export class Movie {
@@ -32,6 +33,7 @@ export class Movie {
   duration: number;
 
   @Column()
+  @Optional()
   backdrop: string;
 
   @Column()

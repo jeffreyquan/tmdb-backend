@@ -1,3 +1,4 @@
+import { SearchResponseInterceptor } from './interceptors/search-response.interceptor';
 import {
   Body,
   Controller,
@@ -8,6 +9,7 @@ import {
   Post,
   Query,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
@@ -20,6 +22,7 @@ import { SearchQueryDto } from './dto/search-query.dto';
 export class MoviesController {
   constructor(private readonly moviesService: MoviesService) {}
 
+  @UseInterceptors(SearchResponseInterceptor)
   @Get('search')
   search(@Query() searchQueryDto: SearchQueryDto) {
     return this.moviesService.search(searchQueryDto);
