@@ -6,7 +6,7 @@ import {
   ManyToMany,
   ManyToOne,
   OneToMany,
-  PrimaryGeneratedColumn,
+  PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { Genre } from './genre.entity';
@@ -17,7 +17,7 @@ import { Optional } from '@nestjs/common';
 
 @Entity()
 export class Movie {
-  @PrimaryGeneratedColumn()
+  @PrimaryColumn()
   id: number;
 
   @Column()
@@ -41,9 +41,6 @@ export class Movie {
 
   @Column()
   imdb_id: string;
-
-  @Column()
-  tmdb_id: number;
 
   @ManyToOne(() => Director, (director) => director.movies)
   director: Director;

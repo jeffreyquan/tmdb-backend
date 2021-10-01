@@ -8,6 +8,7 @@ import {
   ParseIntPipe,
   Post,
   Query,
+  Req,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
@@ -16,6 +17,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { MoviesService } from './movies.service';
 import { CreateMovieDto } from './dto/create-movie.dto';
 import { SearchQueryDto } from './dto/search-query.dto';
+import { Request } from 'express';
 
 @ApiTags('movie')
 @Controller('movies')
@@ -24,7 +26,8 @@ export class MoviesController {
 
   @UseInterceptors(SearchResponseInterceptor)
   @Get('search')
-  search(@Query() searchQueryDto: SearchQueryDto) {
+  search(@Query() searchQueryDto: SearchQueryDto, @Req() request: Request) {
+    console.log(request);
     return this.moviesService.search(searchQueryDto);
   }
 

@@ -1,8 +1,7 @@
 import { Exclude, Expose, Transform } from 'class-transformer';
 
 export class MovieSearchResult {
-  @Expose({ name: 'id' })
-  tmdb_id: number;
+  id: number;
 
   @Exclude()
   adult: boolean;

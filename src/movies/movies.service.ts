@@ -1,12 +1,7 @@
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { HttpService } from '@nestjs/axios';
-import {
-  ClassSerializerInterceptor,
-  Injectable,
-  NotFoundException,
-  UseInterceptors,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AxiosResponse } from 'axios';
 import { Repository } from 'typeorm';
@@ -32,7 +27,7 @@ export class MoviesService {
     query,
   }: SearchQueryDto): Observable<AxiosResponse<any[]>> {
     return this.httpService
-      .get(`${endpoints.search}&query=${query}&page=${page}`)
+      .get(`${endpoints.SEARCH}?query=${query}&page=${page}`)
       .pipe(map((response) => response.data));
   }
 
