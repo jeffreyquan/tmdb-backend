@@ -9,15 +9,15 @@ export class CreateDirectorDto {
 
   @ApiProperty({ description: 'Date of birth' })
   @IsString()
-  date_of_birth: string;
+  dateOfBirth: string;
 
   @ApiProperty({ description: 'Date of death' })
   @IsString()
-  date_of_death: string;
+  dateOfDeath: string;
 
   @ApiProperty({ description: 'Place of birth' })
   @IsString()
-  place_of_birth: string;
+  placeOfBirth: string;
 
   @ApiProperty({ description: 'Photo of the director' })
   @IsString()
@@ -28,9 +28,9 @@ export class CreateDirectorDto {
 
   @ApiProperty({ description: 'ID to link to IMDB' })
   @IsString()
-  imdb_id: string;
+  imdbId: string;
 
-  @ApiProperty({ description: 'ID to link to TMDB' })
+  @ApiProperty({ description: 'ID of director. We use the TMDB ID' })
   @IsNumber()
-  tmdb_id: number;
+  id: number;
 }

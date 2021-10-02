@@ -3,36 +3,33 @@ import {
   CreateDateColumn,
   Entity,
   OneToMany,
-  PrimaryGeneratedColumn,
+  PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { Movie } from 'src/movies/entities/movie.entity';
 
 @Entity()
 export class Director {
-  @PrimaryGeneratedColumn()
+  @PrimaryColumn()
   id: number;
 
   @Column()
   name: string;
 
   @Column({ nullable: true })
-  date_of_birth: string;
+  dateOfBirth: string;
 
   @Column({ nullable: true })
-  date_of_death: string;
+  dateOfDeath: string;
 
   @Column({ nullable: true })
-  place_of_birth: string;
+  placeOfBirth: string;
 
   @Column()
   photo: string;
 
   @Column()
-  imdb_id: string;
-
-  @Column()
-  tmdb_id: number;
+  imdbId: string;
 
   @OneToMany(() => Movie, (movie) => movie.director)
   movies: Movie[];
@@ -41,12 +38,12 @@ export class Director {
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP(6)',
   })
-  created_at: Date;
+  createdAt: Date;
 
   @UpdateDateColumn({
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP(6)',
     onUpdate: 'CURRENT_TIMESTAMP(6)',
   })
-  updated_at: Date;
+  updatedAt: Date;
 }
