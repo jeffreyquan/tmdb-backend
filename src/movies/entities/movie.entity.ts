@@ -48,8 +48,8 @@ export class Movie {
   @ManyToMany(() => Genre, (genre) => genre.movies)
   genres: Genre[];
 
-  @OneToMany(() => MovieList, (movie_list) => movie_list.movie)
-  movie_list: MovieList;
+  @OneToMany(() => MovieList, (movieList) => movieList.movie)
+  movieList: MovieList;
 
   @ManyToMany(() => Actor, (actor) => actor.movies, {
     cascade: true,

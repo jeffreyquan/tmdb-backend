@@ -1,3 +1,4 @@
+import { DirectorsService } from './../directors/directors.service';
 import { firstValueFrom, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { HttpService } from '@nestjs/axios';
@@ -17,6 +18,7 @@ export class MoviesService {
     @InjectRepository(Movie)
     private readonly movieRepository: Repository<Movie>,
     private genresService: GenresService,
+    private directorsService: DirectorsService,
     private httpService: HttpService,
   ) {}
 
@@ -34,9 +36,10 @@ export class MoviesService {
   }
 
   async fetchMovieFromTMDB(id: number): Promise<CreateMovieDto> {
-    const response = await firstValueFrom(
-      this.httpService.get(`${endpoints.MOVIE}/${id}`),
-    );
+    const [movieDetails, credits] = await Promise.all([
+      firstValueFrom(this.httpService.get(`${endpoints.MOVIE}/${id}`)),
+      firstValueFrom(this.httpService.get(`${endpoints.MOVIE}/${id}/credits`)),
+    ]);
 
     const {
       backdrop_path,
@@ -48,7 +51,11 @@ export class MoviesService {
       release_date,
       runtime,
       title,
-    } = response.data;
+    } = movieDetails.data;
+
+    const director = credits.data.crew.find(
+      (person) => person.job === 'Director',
+    );
 
     return {
       id: tmbd_id,
@@ -60,12 +67,13 @@ export class MoviesService {
       imdbId: imdb_id,
       genres: genres.map((genre) => genre.name),
       year: new Date(release_date).getFullYear(),
+      directorId: director.id,
     };
   }
 
   async findOne(id: number) {
     return await this.movieRepository.findOne(id, {
-      relations: ['genres'],
+      relations: ['genres', 'director'],
     });
   }
 
@@ -95,7 +103,15 @@ export class MoviesService {
       ),
     );
 
-    const movie = this.movieRepository.create({ ...createMovieDto, genres });
+    const director = await this.directorsService.findOrCreateOne(
+      createMovieDto.directorId,
+    );
+
+    const movie = this.movieRepository.create({
+      ...createMovieDto,
+      genres,
+      director,
+    });
 
     return this.movieRepository.save(movie);
   }

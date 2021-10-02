@@ -1,3 +1,4 @@
+import { DirectorsModule } from './../directors/directors.module';
 import { GenresModule } from './../genres/genres.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Module } from '@nestjs/common';
@@ -14,6 +15,7 @@ import tmdbConfig from 'src/config/tmdb.config';
 @Module({
   imports: [
     GenresModule,
+    DirectorsModule,
     TypeOrmModule.forFeature([Movie, Genre, List]),
     HttpModule.registerAsync({
       useFactory: tmdbConfig,
