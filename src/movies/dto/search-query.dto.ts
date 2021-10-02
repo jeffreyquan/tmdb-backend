@@ -2,9 +2,9 @@ import { IsOptional, IsPositive, IsString } from 'class-validator';
 
 export class SearchQueryDto {
   @IsString()
-  query: string;
+  readonly query: string;
 
   @IsOptional()
   @IsPositive()
-  page: number;
+  readonly page: number;
 }

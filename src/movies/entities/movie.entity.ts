@@ -9,7 +9,7 @@ import {
   PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Genre } from './genre.entity';
+import { Genre } from '../../genres/entities/genre.entity';
 import { Actor } from 'src/actors/entities/actor.entity';
 import { Director } from 'src/directors/entities/director.entity';
 import { MovieList } from './movie-list.entity';
@@ -40,7 +40,7 @@ export class Movie {
   poster: string;
 
   @Column()
-  imdb_id: string;
+  imdbId: string;
 
   @ManyToOne(() => Director, (director) => director.movies)
   director: Director;
@@ -60,13 +60,15 @@ export class Movie {
   @CreateDateColumn({
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP(6)',
+    select: false,
   })
-  created_at: Date;
+  createdAt: Date;
 
   @UpdateDateColumn({
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP(6)',
     onUpdate: 'CURRENT_TIMESTAMP(6)',
+    select: false,
   })
-  updated_at: Date;
+  updatedAt: Date;
 }

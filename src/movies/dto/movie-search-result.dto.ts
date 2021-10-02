@@ -1,45 +1,45 @@
 import { Exclude, Expose, Transform } from 'class-transformer';
 
 export class MovieSearchResult {
-  id: number;
+  readonly id: number;
 
   @Exclude()
-  adult: boolean;
+  readonly adult: boolean;
 
   @Exclude()
-  genre_ids: number[];
+  readonly genre_ids: number[];
 
   @Exclude()
-  original_language: string;
+  readonly original_language: string;
 
-  overview: string;
-
-  @Exclude()
-  popularity: number;
+  readonly overview: string;
 
   @Exclude()
-  release_date: string;
+  readonly popularity: number;
 
   @Exclude()
-  video: boolean;
+  readonly release_date: string;
 
   @Exclude()
-  vote_average: number;
+  readonly video: boolean;
 
   @Exclude()
-  vote_count: number;
-
-  title: string;
+  readonly vote_average: number;
 
   @Exclude()
-  original_title: string;
+  readonly vote_count: number;
+
+  readonly title: string;
+
+  @Exclude()
+  readonly original_title: string;
 
   @Expose({ name: 'backdrop_path' })
-  backdrop: string;
+  readonly backdrop: string;
 
   @Transform(({ value }) =>
     value ? `https://image.tmdb.org/t/p/w500/${value}` : value,
   )
   @Expose({ name: 'poster_path' })
-  poster: string;
+  readonly poster: string;
 }

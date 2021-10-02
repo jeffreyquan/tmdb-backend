@@ -22,5 +22,5 @@ export class MovieList {
   movie: Movie;
 
   @Column('boolean', { default: false })
-  has_watched: boolean;
+  hasWatched: boolean;
 }

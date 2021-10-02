@@ -2,35 +2,39 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsNumber, IsString } from 'class-validator';
 
 export class CreateMovieDto {
+  @ApiProperty({ description: 'ID of movie. We use the TMDB ID' })
+  @IsNumber()
+  readonly id: number;
+
   @ApiProperty({ description: 'Title of the movie' })
   @IsString()
-  title: string;
+  readonly title: string;
 
   @ApiProperty({ description: 'Overview of the movie' })
   @IsString()
-  overview: string;
+  readonly overview: string;
 
   @ApiProperty({ description: 'Year movie was released' })
   @IsNumber()
-  year: number;
+  readonly year: number;
 
   @ApiProperty({ example: 'Length of movie in minutes' })
   @IsNumber()
-  duration: number;
+  readonly duration: number;
 
   @ApiProperty({ description: 'Background image of the movie' })
   @IsString()
-  backdrop: string;
+  readonly backdrop: string;
 
   @ApiProperty({ description: 'Poster of the movie' })
   @IsString()
-  poster: string;
+  readonly poster: string;
 
   @ApiProperty({ description: 'ID to link to IMDB' })
   @IsString()
-  imdb_id: string;
+  readonly imdbId: string;
 
-  @ApiProperty({ description: 'ID to link to TMDB' })
-  @IsNumber()
-  tmdb_id: number;
+  @ApiProperty({ description: 'Genres of the movie' })
+  @IsString({ each: true })
+  readonly genres: string[];
 }

@@ -31,16 +31,9 @@ export class MoviesController {
     return this.moviesService.search(searchQueryDto);
   }
 
-  @UseGuards(AuthGuard('jwt'))
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.moviesService.findOne(id);
-  }
-
-  @UseGuards(AuthGuard('jwt'))
-  @Post()
-  create(@Body() createMovieDto: CreateMovieDto) {
-    return this.moviesService.create(createMovieDto);
+    return this.moviesService.findOrCreateOne(id);
   }
 
   @Delete(':id')

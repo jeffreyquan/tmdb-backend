@@ -7,7 +7,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Movie } from './movie.entity';
+import { Movie } from '../../movies/entities/movie.entity';
 
 @Entity()
 export class Genre {
@@ -16,9 +16,6 @@ export class Genre {
 
   @Column()
   name: string;
-
-  @Column()
-  tmdb_id: number;
 
   @ManyToMany(() => Movie, (movie) => movie.genres, {
     cascade: true,
@@ -29,13 +26,15 @@ export class Genre {
   @CreateDateColumn({
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP(6)',
+    select: false,
   })
-  created_at: Date;
+  createdAt: Date;
 
   @UpdateDateColumn({
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP(6)',
     onUpdate: 'CURRENT_TIMESTAMP(6)',
+    select: false,
   })
-  updated_at: Date;
+  updatedAt: Date;
 }

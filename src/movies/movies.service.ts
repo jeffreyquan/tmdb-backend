@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+import { firstValueFrom, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { HttpService } from '@nestjs/axios';
 import { Injectable, NotFoundException } from '@nestjs/common';
@@ -9,12 +9,14 @@ import { endpoints } from './config/endpoints';
 import { CreateMovieDto } from './dto/create-movie.dto';
 import { Movie } from './entities/movie.entity';
 import { SearchQueryDto } from './dto/search-query.dto';
+import { GenresService } from 'src/genres/genres.service';
 
 @Injectable()
 export class MoviesService {
   constructor(
     @InjectRepository(Movie)
     private readonly movieRepository: Repository<Movie>,
+    private genresService: GenresService,
     private httpService: HttpService,
   ) {}
 
@@ -31,18 +33,69 @@ export class MoviesService {
       .pipe(map((response) => response.data));
   }
 
+  async fetchMovieFromTMDB(id: number): Promise<CreateMovieDto> {
+    const response = await firstValueFrom(
+      this.httpService.get(`${endpoints.MOVIE}/${id}`),
+    );
+
+    const {
+      backdrop_path,
+      genres,
+      id: tmbd_id,
+      imdb_id,
+      overview,
+      poster_path,
+      release_date,
+      runtime,
+      title,
+    } = response.data;
+
+    return {
+      id: tmbd_id,
+      title,
+      overview,
+      duration: runtime,
+      backdrop: `https://image.tmdb.org/t/p/w500/${backdrop_path}`,
+      poster: `https://image.tmdb.org/t/p/w500/${poster_path}`,
+      imdbId: imdb_id,
+      genres: genres.map((genre) => genre.name),
+      year: new Date(release_date).getFullYear(),
+    };
+  }
+
   async findOne(id: number) {
-    const movie = await this.movieRepository.findOne(id);
+    return await this.movieRepository.findOne(id, {
+      relations: ['genres'],
+    });
+  }
+
+  async findOrCreateOne(id: number) {
+    const existingMovie = await this.findOne(id);
+
+    if (existingMovie) {
+      return existingMovie;
+    }
+
+    const movie = await this.fetchMovieFromTMDB(id);
 
     if (!movie) {
       throw new NotFoundException(`Movie not found`);
     }
 
-    return movie;
+    await this.create(movie);
+
+    // this allows relations to be populated instead of returning the result of create above
+    return await this.findOne(movie.id);
   }
 
   async create(createMovieDto: CreateMovieDto) {
-    const movie = this.movieRepository.create(createMovieDto);
+    const genres = await Promise.all(
+      createMovieDto.genres.map((name) =>
+        this.genresService.findOrCreateGenreByName(name),
+      ),
+    );
+
+    const movie = this.movieRepository.create({ ...createMovieDto, genres });
 
     return this.movieRepository.save(movie);
   }

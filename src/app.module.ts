@@ -9,6 +9,9 @@ import { DirectorsModule } from './directors/directors.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { ListsModule } from './lists/lists.module';
+import { GenresModule } from './genres/genres.module';
+import { ReviewsModule } from './reviews/reviews.module';
+import { RatingsModule } from './ratings/ratings.module';
 
 @Module({
   imports: [
@@ -25,6 +28,9 @@ import { ListsModule } from './lists/lists.module';
     AuthModule,
     UsersModule,
     ListsModule,
+    GenresModule,
+    ReviewsModule,
+    RatingsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
