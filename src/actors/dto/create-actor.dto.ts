@@ -1,36 +1,3 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsNumber, IsString } from 'class-validator';
-import { Movie } from 'src/movies/entities/movie.entity';
+import { CreatePersonDto } from 'src/common/dto/create-person.dto';
 
-export class CreateActorDto {
-  @ApiProperty({ description: 'Name of the actor' })
-  @IsString()
-  name: string;
-
-  @ApiProperty({ description: 'Date of birth' })
-  @IsString()
-  date_of_birth: string;
-
-  @ApiProperty({ description: 'Date of death' })
-  @IsString()
-  date_of_death: string;
-
-  @ApiProperty({ description: 'Place of birth' })
-  @IsString()
-  place_of_birth: string;
-
-  @ApiProperty({ description: 'Photo of the actor' })
-  @IsString()
-  photo: string;
-
-  @ApiProperty({ description: 'Movies actor has starred in' })
-  movies: Movie[];
-
-  @ApiProperty({ description: 'ID to link to IMDB' })
-  @IsString()
-  imdb_id: string;
-
-  @ApiProperty({ description: 'ID to link to TMDB' })
-  @IsNumber()
-  tmdb_id: number;
-}
+export class CreateActorDto extends CreatePersonDto {}

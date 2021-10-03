@@ -34,6 +34,9 @@ export class CreateMovieDto {
   @IsString()
   readonly imdbId: string;
 
+  @ApiProperty({ description: 'TMDB IDs of actors' })
+  readonly actorIds: number[];
+
   @ApiProperty({ description: 'TMDB ID of director' })
   readonly directorId: number;
 

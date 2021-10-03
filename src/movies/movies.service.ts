@@ -11,6 +11,7 @@ import { CreateMovieDto } from './dto/create-movie.dto';
 import { Movie } from './entities/movie.entity';
 import { SearchQueryDto } from './dto/search-query.dto';
 import { GenresService } from 'src/genres/genres.service';
+import { ActorsService } from 'src/actors/actors.service';
 
 @Injectable()
 export class MoviesService {
@@ -19,6 +20,7 @@ export class MoviesService {
     private readonly movieRepository: Repository<Movie>,
     private genresService: GenresService,
     private directorsService: DirectorsService,
+    private actorsService: ActorsService,
     private httpService: HttpService,
   ) {}
 
@@ -57,6 +59,8 @@ export class MoviesService {
       (person) => person.job === 'Director',
     );
 
+    const actorIds = credits.data.cast.map((actor) => actor.id);
+
     return {
       id: tmbd_id,
       title,
@@ -68,12 +72,13 @@ export class MoviesService {
       genres: genres.map((genre) => genre.name),
       year: new Date(release_date).getFullYear(),
       directorId: director.id,
+      actorIds,
     };
   }
 
   async findOne(id: number) {
     return await this.movieRepository.findOne(id, {
-      relations: ['genres', 'director'],
+      relations: ['genres', 'director', 'actors'],
     });
   }
 
@@ -107,10 +112,17 @@ export class MoviesService {
       createMovieDto.directorId,
     );
 
+    const actors = await Promise.all(
+      createMovieDto.actorIds
+        .slice(0, 10)
+        .map((actorId) => this.actorsService.findOrCreateOne(actorId)),
+    );
+
     const movie = this.movieRepository.create({
       ...createMovieDto,
       genres,
       director,
+      actors,
     });
 
     return this.movieRepository.save(movie);

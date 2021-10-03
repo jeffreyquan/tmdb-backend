@@ -9,6 +9,7 @@ import { MoviesController } from './movies.controller';
 import { Genre } from '../genres/entities/genre.entity';
 import { List } from 'src/lists/entities/list.entity';
 import tmdbConfig from 'src/config/tmdb.config';
+import { ActorsModule } from 'src/actors/actors.module';
 
 // https://docs.nestjs.com/techniques/http-module
 // To use process.env here, we need to use registerAsync
@@ -16,6 +17,7 @@ import tmdbConfig from 'src/config/tmdb.config';
   imports: [
     GenresModule,
     DirectorsModule,
+    ActorsModule,
     TypeOrmModule.forFeature([Movie, Genre, List]),
     HttpModule.registerAsync({
       useFactory: tmdbConfig,

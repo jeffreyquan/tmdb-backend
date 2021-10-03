@@ -12,7 +12,7 @@ export abstract class Person {
   @Column()
   name: string;
 
-  @Column()
+  @Column({ nullable: true })
   biography: string;
 
   @Column({ nullable: true })
@@ -27,7 +27,7 @@ export abstract class Person {
   @Column()
   photo: string;
 
-  @Column()
+  @Column({ nullable: true })
   imdbId: string;
 
   @CreateDateColumn({
