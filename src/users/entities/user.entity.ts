@@ -4,14 +4,16 @@ import {
   Entity,
   JoinColumn,
   OneToOne,
-  PrimaryGeneratedColumn,
+  OneToMany,
   UpdateDateColumn,
+  PrimaryColumn,
 } from 'typeorm';
 import { List } from 'src/lists/entities/list.entity';
+import { Rating } from 'src/ratings/entities/rating.entity';
 
 @Entity()
 export class User {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryColumn()
   id: string;
 
   @Column({ unique: true })
@@ -19,6 +21,9 @@ export class User {
 
   @Column({ unique: true })
   email: string;
+
+  @OneToMany(() => Rating, (rating) => rating.user)
+  ratings: Rating[];
 
   @OneToOne(() => List, (list) => list.user)
   @JoinColumn()
