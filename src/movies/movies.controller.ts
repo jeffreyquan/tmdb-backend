@@ -1,23 +1,16 @@
 import { SearchResponseInterceptor } from './interceptors/search-response.interceptor';
 import {
-  Body,
   Controller,
   Delete,
   Get,
   Param,
   ParseIntPipe,
-  Post,
   Query,
-  Req,
-  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { AuthGuard } from '@nestjs/passport';
 import { MoviesService } from './movies.service';
-import { CreateMovieDto } from './dto/create-movie.dto';
 import { SearchQueryDto } from './dto/search-query.dto';
-import { Request } from 'express';
 
 @ApiTags('movie')
 @Controller('movies')
@@ -26,9 +19,14 @@ export class MoviesController {
 
   @UseInterceptors(SearchResponseInterceptor)
   @Get('search')
-  search(@Query() searchQueryDto: SearchQueryDto, @Req() request: Request) {
-    console.log(request);
+  search(@Query() searchQueryDto: SearchQueryDto) {
     return this.moviesService.search(searchQueryDto);
+  }
+
+  @UseInterceptors(SearchResponseInterceptor)
+  @Get('popular')
+  getPopular() {
+    return this.moviesService.fetchPopular();
   }
 
   @Get(':id')

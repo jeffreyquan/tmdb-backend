@@ -17,8 +17,8 @@ export class MovieSearchResult {
   @Exclude()
   readonly popularity: number;
 
-  @Exclude()
-  readonly release_date: string;
+  @Expose({ name: 'release_date' })
+  readonly releaseDate: string;
 
   @Exclude()
   readonly video: boolean;

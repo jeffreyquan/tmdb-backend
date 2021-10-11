@@ -37,6 +37,12 @@ export class MoviesService {
       .pipe(map((response) => response.data));
   }
 
+  fetchPopular(): Observable<AxiosResponse<any[]>> {
+    return this.httpService
+      .get(`${endpoints.POPULAR}`)
+      .pipe(map((response) => response.data));
+  }
+
   async fetchMovieFromTMDB(id: number): Promise<CreateMovieDto> {
     const [movieDetails, credits] = await Promise.all([
       firstValueFrom(this.httpService.get(`${endpoints.MOVIE}/${id}`)),
@@ -70,7 +76,7 @@ export class MoviesService {
       poster: `https://image.tmdb.org/t/p/w500/${poster_path}`,
       imdbId: imdb_id,
       genres: genres.map((genre) => genre.name),
-      year: new Date(release_date).getFullYear(),
+      releaseDate: release_date,
       directorId: director.id,
       actorIds,
     };
