@@ -9,6 +9,7 @@ import {
   PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { Rating } from './../../ratings/entities/rating.entity';
 import { Genre } from '../../genres/entities/genre.entity';
 import { Actor } from 'src/actors/entities/actor.entity';
 import { Director } from 'src/directors/entities/director.entity';
@@ -47,6 +48,9 @@ export class Movie {
 
   @ManyToMany(() => Genre, (genre) => genre.movies)
   genres: Genre[];
+
+  @OneToMany(() => Rating, (rating) => rating.movie)
+  ratings: Rating[];
 
   @OneToMany(() => MovieList, (movieList) => movieList.movie)
   movieList: MovieList;
