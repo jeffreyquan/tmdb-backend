@@ -27,8 +27,8 @@ export class Movie {
   @Column()
   overview: string;
 
-  @Column()
-  year: number;
+  @Column({ nullable: true })
+  releaseDate: string;
 
   @Column()
   duration: number;

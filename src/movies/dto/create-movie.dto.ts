@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNumber, IsString } from 'class-validator';
+import { IsDateString, IsNumber, IsString } from 'class-validator';
 
 export class CreateMovieDto {
   @ApiProperty({ description: 'ID of movie. We use the TMDB ID' })
@@ -15,8 +15,8 @@ export class CreateMovieDto {
   readonly overview: string;
 
   @ApiProperty({ description: 'Year movie was released' })
-  @IsNumber()
-  readonly year: number;
+  @IsDateString()
+  readonly releaseDate: string;
 
   @ApiProperty({ example: 'Length of movie in minutes' })
   @IsNumber()
