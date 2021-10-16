@@ -2,7 +2,7 @@ import { HttpService } from '@nestjs/axios';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { firstValueFrom } from 'rxjs';
-import { endpoints } from 'src/config/tmdb-endpoints.config';
+import { endpoints } from 'config/tmdb-endpoints.config';
 import { Repository } from 'typeorm';
 import { CreateActorDto } from './dto/create-actor.dto';
 import { Actor } from './entities/actor.entity';

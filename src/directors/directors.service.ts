@@ -5,7 +5,7 @@ import { Repository } from 'typeorm';
 import { HttpService } from '@nestjs/axios';
 import { CreateDirectorDto } from './dto/create-director.dto';
 import { Director } from './entities/director.entity';
-import { endpoints } from 'src/config/tmdb-endpoints.config';
+import { endpoints } from 'config/tmdb-endpoints.config';
 
 @Injectable()
 export class DirectorsService {

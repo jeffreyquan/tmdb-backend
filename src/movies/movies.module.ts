@@ -1,3 +1,4 @@
+import { ListsModule } from './../lists/lists.module';
 import { DirectorsModule } from './../directors/directors.module';
 import { GenresModule } from './../genres/genres.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -7,11 +8,11 @@ import { MoviesService } from './movies.service';
 import { Movie } from './entities/movie.entity';
 import { MoviesController } from './movies.controller';
 import { Genre } from '../genres/entities/genre.entity';
-import { List } from 'src/lists/entities/list.entity';
-import tmdbConfig from 'src/config/tmdb.config';
-import { ActorsModule } from 'src/actors/actors.module';
-import { Rating } from 'src/ratings/entities/rating.entity';
-import { RatingsModule } from 'src/ratings/ratings.module';
+import { List } from 'lists/entities/list.entity';
+import tmdbConfig from 'config/tmdb.config';
+import { ActorsModule } from 'actors/actors.module';
+import { Rating } from 'ratings/entities/rating.entity';
+import { RatingsModule } from 'ratings/ratings.module';
 
 // https://docs.nestjs.com/techniques/http-module
 // To use process.env here, we need to use registerAsync
@@ -21,6 +22,7 @@ import { RatingsModule } from 'src/ratings/ratings.module';
     DirectorsModule,
     GenresModule,
     RatingsModule,
+    ListsModule,
     TypeOrmModule.forFeature([Genre, List, Movie, Rating]),
     HttpModule.registerAsync({
       useFactory: tmdbConfig,

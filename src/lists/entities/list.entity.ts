@@ -1,5 +1,5 @@
-import { MovieList } from 'src/movies/entities/movie-list.entity';
-import { User } from 'src/users/entities/user.entity';
+import { MovieList } from 'movies/entities/movie-list.entity';
+import { User } from 'users/entities/user.entity';
 import {
   Column,
   CreateDateColumn,
@@ -21,21 +21,21 @@ export class List {
   user: User;
 
   @Column('boolean', { default: false })
-  is_public: boolean;
+  isPublic: boolean;
 
-  @OneToMany(() => MovieList, (movie_list) => movie_list.list)
-  movie_list: MovieList;
+  @OneToMany(() => MovieList, (movieList) => movieList.list)
+  movieList: MovieList;
 
   @CreateDateColumn({
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP(6)',
   })
-  created_at: Date;
+  createdAt: Date;
 
   @UpdateDateColumn({
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP(6)',
     onUpdate: 'CURRENT_TIMESTAMP(6)',
   })
-  updated_at: Date;
+  updatedAt: Date;
 }

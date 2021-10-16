@@ -8,8 +8,8 @@ import {
   UpdateDateColumn,
   PrimaryColumn,
 } from 'typeorm';
-import { List } from 'src/lists/entities/list.entity';
-import { Rating } from 'src/ratings/entities/rating.entity';
+import { List } from 'lists/entities/list.entity';
+import { Rating } from 'ratings/entities/rating.entity';
 
 @Entity()
 export class User {

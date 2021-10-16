@@ -7,8 +7,8 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Movie } from 'src/movies/entities/movie.entity';
-import { User } from 'src/users/entities/user.entity';
+import { Movie } from 'movies/entities/movie.entity';
+import { User } from 'users/entities/user.entity';
 
 // https://typeorm.io/#/relations-faq/how-to-use-relation-id-without-joining-relation
 // https://stackoverflow.com/questions/59831159/typeorm-relationship-only-ids-instead-of-whole-instances/59836983#59836983

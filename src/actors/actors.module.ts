@@ -4,7 +4,7 @@ import { ActorsController } from './actors.controller';
 import { Module } from '@nestjs/common';
 import { ActorsService } from './actors.service';
 import { Actor } from './entities/actor.entity';
-import tmdbConfig from 'src/config/tmdb.config';
+import tmdbConfig from 'config/tmdb.config';
 
 @Module({
   imports: [

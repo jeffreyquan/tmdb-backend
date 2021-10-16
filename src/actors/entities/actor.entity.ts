@@ -1,6 +1,6 @@
 import { Entity, ManyToMany } from 'typeorm';
-import { Person } from 'src/common/entities/person.entity';
-import { Movie } from 'src/movies/entities/movie.entity';
+import { Person } from 'common/entities/person.entity';
+import { Movie } from 'movies/entities/movie.entity';
 
 @Entity()
 export class Actor extends Person {

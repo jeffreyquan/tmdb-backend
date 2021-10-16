@@ -1,6 +1,6 @@
 import { Entity, OneToMany } from 'typeorm';
-import { Movie } from 'src/movies/entities/movie.entity';
-import { Person } from 'src/common/entities/person.entity';
+import { Movie } from 'movies/entities/movie.entity';
+import { Person } from 'common/entities/person.entity';
 
 @Entity()
 export class Director extends Person {

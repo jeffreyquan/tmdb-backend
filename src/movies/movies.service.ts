@@ -10,8 +10,8 @@ import { endpoints } from './config/endpoints';
 import { CreateMovieDto } from './dto/create-movie.dto';
 import { Movie } from './entities/movie.entity';
 import { SearchQueryDto } from './dto/search-query.dto';
-import { GenresService } from 'src/genres/genres.service';
-import { ActorsService } from 'src/actors/actors.service';
+import { GenresService } from 'genres/genres.service';
+import { ActorsService } from 'actors/actors.service';
 
 @Injectable()
 export class MoviesService {

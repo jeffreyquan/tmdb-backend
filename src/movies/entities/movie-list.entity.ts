@@ -5,7 +5,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { List } from 'src/lists/entities/list.entity';
+import { List } from 'lists/entities/list.entity';
 import { Movie } from './movie.entity';
 
 @Entity()
