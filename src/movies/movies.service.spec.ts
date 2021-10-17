@@ -9,6 +9,9 @@ import { GenresService } from 'genres/genres.service';
 import { DirectorsService } from 'directors/directors.service';
 import { ActorsService } from 'actors/actors.service';
 import { mockMovie } from 'mocks/mock-data';
+import { of } from 'rxjs';
+import { mockMovieDetails } from '../../test/movie/mock-data';
+import { endpoints } from './config/endpoints';
 
 describe('MoviesService', () => {
   let service: MoviesService;
@@ -65,6 +68,20 @@ describe('MoviesService', () => {
           relations: ['actors', 'director', 'genres', 'ratings'],
         }),
       );
+    });
+  });
+
+  describe('fetchMovieDetails', () => {
+    it('should return a promise of the details of a single movie', async () => {
+      spyHttpService.get.mockImplementation(() => of(mockMovieDetails));
+
+      const result = await service.fetchMovieDetails(160);
+
+      expect(spyHttpService.get).toHaveBeenCalledTimes(1);
+
+      expect(spyHttpService.get).toHaveBeenCalledWith(`${endpoints.MOVIE}/160`);
+
+      expect(result).toEqual(mockMovieDetails);
     });
   });
 });

@@ -12,6 +12,8 @@ import { Movie } from './entities/movie.entity';
 import { SearchQueryDto } from './dto/search-query.dto';
 import { GenresService } from 'genres/genres.service';
 import { ActorsService } from 'actors/actors.service';
+import { MovieDetails } from './dto/movie-details';
+import { MovieCredits } from './dto/movie-credits';
 
 @Injectable()
 export class MoviesService {
@@ -43,10 +45,20 @@ export class MoviesService {
       .pipe(map((response) => response.data));
   }
 
-  async fetchMovieFromTMDB(id: number): Promise<CreateMovieDto> {
+  async fetchMovieDetails(id: number): Promise<AxiosResponse<MovieDetails>> {
+    return firstValueFrom(this.httpService.get(`${endpoints.MOVIE}/${id}`));
+  }
+
+  async fetchMovieCredits(id: number): Promise<AxiosResponse<MovieCredits>> {
+    return firstValueFrom(
+      this.httpService.get(`${endpoints.MOVIE}/${id}/credits`),
+    );
+  }
+
+  async fetchMovieFromTmdb(id: number): Promise<CreateMovieDto> {
     const [movieDetails, credits] = await Promise.all([
-      firstValueFrom(this.httpService.get(`${endpoints.MOVIE}/${id}`)),
-      firstValueFrom(this.httpService.get(`${endpoints.MOVIE}/${id}/credits`)),
+      this.fetchMovieDetails(id),
+      this.fetchMovieCredits(id),
     ]);
 
     const {
@@ -95,7 +107,7 @@ export class MoviesService {
       return existingMovie;
     }
 
-    const movie = await this.fetchMovieFromTMDB(id);
+    const movie = await this.fetchMovieFromTmdb(id);
 
     if (!movie) {
       throw new NotFoundException(`Movie not found`);
