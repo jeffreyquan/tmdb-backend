@@ -4,33 +4,33 @@ import { IsNumber, IsString } from 'class-validator';
 export abstract class CreatePersonDto {
   @ApiProperty({ description: 'We use the TMDB ID' })
   @IsNumber()
-  id: number;
+  readonly id: number;
 
   @ApiProperty({ description: 'Name' })
   @IsString()
-  name: string;
+  readonly name: string;
 
   @ApiProperty({ description: 'Biography' })
   @IsString()
-  biography: string;
+  readonly biography: string;
 
   @ApiProperty({ description: 'Date of birth' })
   @IsString()
-  dateOfBirth: string;
+  readonly dateOfBirth: string;
 
   @ApiProperty({ description: 'Date of death' })
   @IsString()
-  dateOfDeath: string;
+  readonly dateOfDeath: string;
 
   @ApiProperty({ description: 'Place of birth' })
   @IsString()
-  placeOfBirth: string;
+  readonly placeOfBirth: string;
 
   @ApiProperty({ description: 'Photo' })
   @IsString()
-  photo: string;
+  readonly photo: string;
 
   @ApiProperty({ description: 'ID to link to IMDB' })
   @IsString()
-  imdbId: string;
+  readonly imdbId: string;
 }
