@@ -1,4 +1,4 @@
-import { mockSearchResponse } from './mock-data';
+import { mockSearchResponse } from 'mocks/movie/mock-data';
 import { SearchQueryDto } from './../../src/movies/dto/search-query.dto';
 import { Test, TestingModule } from '@nestjs/testing';
 import { HttpStatus, INestApplication } from '@nestjs/common';

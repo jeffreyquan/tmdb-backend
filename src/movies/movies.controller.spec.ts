@@ -3,7 +3,7 @@ import {
   mockSearchQuery,
   mockMovieId,
   mockMovie,
-} from './../../test/movie/mock-data';
+} from 'mocks/movie/mock-data';
 import { MaybeMockedDeep } from 'ts-jest/dist/utils/testing';
 import { Test, TestingModule } from '@nestjs/testing';
 import { MoviesController } from './movies.controller';

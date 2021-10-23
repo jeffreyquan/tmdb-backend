@@ -13,7 +13,7 @@ import {
   mockMovie,
   mockMovieDetailsResponse,
   mockMovieId,
-} from '../../test/movie/mock-data';
+} from 'mocks/movie/mock-data';
 import { endpoints } from './config/endpoints';
 
 describe('MoviesService', () => {
