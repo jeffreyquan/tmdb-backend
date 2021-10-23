@@ -87,7 +87,7 @@ export class MoviesService {
       backdrop: `https://image.tmdb.org/t/p/w500/${backdrop_path}`,
       poster: `https://image.tmdb.org/t/p/w500/${poster_path}`,
       imdbId: imdb_id,
-      genres: genres.map((genre) => genre.name),
+      genreNames: genres.map((genre) => genre.name),
       releaseDate: release_date,
       directorId: director.id,
       actorIds,
@@ -121,7 +121,7 @@ export class MoviesService {
 
   async create(createMovieDto: CreateMovieDto) {
     const genres = await Promise.all(
-      createMovieDto.genres.map((name) =>
+      createMovieDto.genreNames.map((name) =>
         this.genresService.findOrCreateGenreByName(name),
       ),
     );
