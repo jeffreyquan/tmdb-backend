@@ -17,9 +17,7 @@ export class Genre {
   @Column()
   name: string;
 
-  @ManyToMany(() => Movie, (movie) => movie.genres, {
-    cascade: true,
-  })
+  @ManyToMany(() => Movie, (movie) => movie.genres)
   @JoinTable()
   movies: Movie[];
 
