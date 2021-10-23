@@ -8,9 +8,12 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { GenresService } from 'genres/genres.service';
 import { DirectorsService } from 'directors/directors.service';
 import { ActorsService } from 'actors/actors.service';
-import { mockMovie } from 'mocks/mock-data';
 import { of } from 'rxjs';
-import { mockMovieDetails } from '../../test/movie/mock-data';
+import {
+  mockMovie,
+  mockMovieDetailsResponse,
+  mockMovieId,
+} from '../../test/movie/mock-data';
 import { endpoints } from './config/endpoints';
 
 describe('MoviesService', () => {
@@ -61,9 +64,9 @@ describe('MoviesService', () => {
   describe('findOne', () => {
     it('should return a single movie', () => {
       const repoSpy = jest.spyOn(repo, 'findOne');
-      expect(service.findOne(123)).resolves.toEqual(mockMovie);
+      expect(service.findOne(mockMovieId)).resolves.toEqual(mockMovie);
       expect(repoSpy).toBeCalledWith(
-        123,
+        mockMovieId,
         expect.objectContaining({
           relations: ['actors', 'director', 'genres', 'ratings'],
         }),
@@ -73,15 +76,17 @@ describe('MoviesService', () => {
 
   describe('fetchMovieDetails', () => {
     it('should return a promise of the details of a single movie', async () => {
-      spyHttpService.get.mockImplementation(() => of(mockMovieDetails));
+      spyHttpService.get.mockImplementation(() => of(mockMovieDetailsResponse));
 
-      const result = await service.fetchMovieDetails(160);
+      const result = await service.fetchMovieDetails(mockMovieId);
 
       expect(spyHttpService.get).toHaveBeenCalledTimes(1);
 
-      expect(spyHttpService.get).toHaveBeenCalledWith(`${endpoints.MOVIE}/160`);
+      expect(spyHttpService.get).toHaveBeenCalledWith(
+        `${endpoints.MOVIE}/${mockMovieId}`,
+      );
 
-      expect(result).toEqual(mockMovieDetails);
+      expect(result).toEqual(mockMovieDetailsResponse);
     });
   });
 });

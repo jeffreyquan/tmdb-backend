@@ -1,3 +1,55 @@
+export const mockMovieId = 160;
+
+export const mockMovieDetailsResponse = {
+  data: {
+    backdrop_path: '/uusNog5m2aCuL53rrKw8RaBnprb.jpg',
+    genres: [
+      {
+        id: 99,
+        name: 'Documentary',
+      },
+    ],
+    id: mockMovieId,
+    imdb_id: 'tt0000012',
+    overview:
+      'A group of people are standing along the platform of a railway station in La Ciotat, waiting for a train. One is seen coming, at some distance, and eventually stops at the platform. Doors of the railway-cars open and attendants help passengers off and on.  Popular legend has it that, when this film was shown, the first-night audience fled the café in terror, fearing being run over by the "approaching" train. This legend has since been identified as promotional embellishment, though there is evidence to suggest that people were astounded at the capabilities of the Lumières\' cinématographe.',
+    poster_path: '/y3A15HpugKsPjVyxKa9POLTEX6B.jpg',
+    release_date: '1896-01-25',
+    title: 'The Arrival of a Train at La Ciotat',
+    runtime: 1,
+  },
+  status: 200,
+  statusText: 'OK',
+  headers: {},
+  config: {},
+};
+
+const {
+  id,
+  title,
+  overview,
+  release_date,
+  runtime,
+  backdrop_path,
+  poster_path,
+  imdb_id,
+} = mockMovieDetailsResponse.data;
+
+export const mockMovie = {
+  id,
+  title,
+  overview,
+  releaseDate: release_date,
+  duration: runtime,
+  backdrop: backdrop_path,
+  poster: poster_path,
+  imdbId: imdb_id,
+  actors: [],
+  director: null,
+  genres: [],
+  ratings: [],
+};
+
 export const mockSearchResponse = {
   page: 1,
   results: [
@@ -202,25 +254,6 @@ export const mockSearchResponse = {
   total_results: 478,
 };
 
-export const mockMovieDetails = {
-  data: {
-    backdrop_path: '/uusNog5m2aCuL53rrKw8RaBnprb.jpg',
-    genres: [
-      {
-        id: 99,
-        name: 'Documentary',
-      },
-    ],
-    id: 160,
-    imdb_id: 'tt0000012',
-    overview:
-      'A group of people are standing along the platform of a railway station in La Ciotat, waiting for a train. One is seen coming, at some distance, and eventually stops at the platform. Doors of the railway-cars open and attendants help passengers off and on.  Popular legend has it that, when this film was shown, the first-night audience fled the café in terror, fearing being run over by the "approaching" train. This legend has since been identified as promotional embellishment, though there is evidence to suggest that people were astounded at the capabilities of the Lumières\' cinématographe.',
-    poster_path: '/y3A15HpugKsPjVyxKa9POLTEX6B.jpg',
-    release_date: '1896-01-25',
-    title: 'The Arrival of a Train at La Ciotat',
-  },
-  status: 200,
-  statusText: 'OK',
-  headers: {},
-  config: {},
+export const mockSearchQuery = {
+  query: 'harry',
 };
