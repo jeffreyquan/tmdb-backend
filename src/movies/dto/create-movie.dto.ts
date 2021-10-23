@@ -42,5 +42,5 @@ export class CreateMovieDto {
 
   @ApiProperty({ description: 'Genres of the movie' })
   @IsString({ each: true })
-  readonly genres: string[];
+  readonly genreNames: string[];
 }
