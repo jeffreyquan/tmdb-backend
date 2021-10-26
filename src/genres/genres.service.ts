@@ -15,14 +15,15 @@ export class GenresService {
     return await this.genreRepository.findOne(id);
   }
 
-  async findOrCreateGenreByName(name: string): Promise<Genre> {
-    const existingGenre = await this.genreRepository.findOne({ name });
+  async findOrCreateGenreByName(id: number, name: string): Promise<Genre> {
+    const existingGenre = await this.findOne(id);
 
     if (existingGenre) {
       return existingGenre;
     }
 
     return await this.create({
+      id,
       name,
     });
   }

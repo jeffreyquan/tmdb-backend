@@ -1,6 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsDateString, IsNumber, IsString } from 'class-validator';
 
+type Genre = {
+  id: number;
+  name: string;
+};
+
 export class CreateMovieDto {
   @ApiProperty({ description: 'ID of movie. We use the TMDB ID' })
   @IsNumber()
@@ -41,6 +46,5 @@ export class CreateMovieDto {
   readonly directorId: number;
 
   @ApiProperty({ description: 'Genres of the movie' })
-  @IsString({ each: true })
-  readonly genreNames: string[];
+  readonly genres: Genre[];
 }
