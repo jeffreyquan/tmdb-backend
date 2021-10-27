@@ -25,7 +25,10 @@ export class User {
   @OneToMany(() => Rating, (rating) => rating.user)
   ratings: Rating[];
 
-  @OneToOne(() => List, (list) => list.user)
+  /**
+   * cascade set to true is required to create and save a list and create the relation with the list
+   */
+  @OneToOne(() => List, (list) => list.user, { cascade: true })
   @JoinColumn()
   list: List;
 
