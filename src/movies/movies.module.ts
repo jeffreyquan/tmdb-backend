@@ -13,6 +13,7 @@ import tmdbConfig from 'config/tmdb.config';
 import { ActorsModule } from 'actors/actors.module';
 import { Rating } from 'ratings/entities/rating.entity';
 import { RatingsModule } from 'ratings/ratings.module';
+import { LoggerModule } from 'logger';
 
 // https://docs.nestjs.com/techniques/http-module
 // To use process.env here, we need to use registerAsync
@@ -26,6 +27,9 @@ import { RatingsModule } from 'ratings/ratings.module';
     TypeOrmModule.forFeature([Genre, List, Movie, Rating]),
     HttpModule.registerAsync({
       useFactory: tmdbConfig,
+    }),
+    LoggerModule.forRoot({
+      context: 'Movie Service',
     }),
   ],
   controllers: [MoviesController],

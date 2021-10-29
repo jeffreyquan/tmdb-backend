@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { LoggerModule } from 'nestjs-pino';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MoviesModule } from './movies/movies.module';
@@ -13,6 +12,7 @@ import { ListsModule } from './lists/lists.module';
 import { GenresModule } from './genres/genres.module';
 import { ReviewsModule } from './reviews/reviews.module';
 import { RatingsModule } from './ratings/ratings.module';
+import { LoggerModule } from './logger/logger.module';
 
 @Module({
   imports: [
@@ -32,23 +32,7 @@ import { RatingsModule } from './ratings/ratings.module';
     GenresModule,
     ReviewsModule,
     RatingsModule,
-    LoggerModule.forRoot({
-      pinoHttp: [
-        {
-          formatters: {
-            level: (label: string): { level: string } => ({
-              level: label,
-            }),
-          },
-          timestamp: (): string => {
-            const now = new Date().toISOString();
-            return `,"timestamp":"${now}"`;
-          },
-          level: process.env.NODE_ENV !== 'production' ? 'debug' : 'info',
-          prettyPrint: process.env.NODE_ENV !== 'production',
-        },
-      ],
-    }),
+    LoggerModule,
   ],
   controllers: [AppController],
   providers: [AppService],
