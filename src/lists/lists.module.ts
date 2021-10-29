@@ -4,9 +4,10 @@ import { ListsController } from './lists.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from 'users/entities/user.entity';
 import { MovieList } from 'movies/entities/movie-list.entity';
+import { List } from './entities/list.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User, MovieList])],
+  imports: [TypeOrmModule.forFeature([List, User, MovieList])],
   providers: [ListsService],
   controllers: [ListsController],
 })

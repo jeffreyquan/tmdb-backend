@@ -4,7 +4,6 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinColumn,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
@@ -17,7 +16,6 @@ export class List {
   id: number;
 
   @OneToOne(() => User, (user) => user.list)
-  @JoinColumn({ name: 'owner' })
   user: User;
 
   @Column('boolean', { default: false })
