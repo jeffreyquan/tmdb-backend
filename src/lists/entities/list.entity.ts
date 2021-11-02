@@ -1,4 +1,4 @@
-import { MovieList } from 'lists/entities/movie-list.entity';
+import { ListItem } from 'list-items/entities/list-item.entity';
 import { User } from 'users/entities/user.entity';
 import {
   Column,
@@ -21,8 +21,8 @@ export class List {
   @Column('boolean', { default: false })
   isPublic: boolean;
 
-  @OneToMany(() => MovieList, (movieList) => movieList.list)
-  movieList: MovieList;
+  @OneToMany(() => ListItem, (movieList) => movieList.list)
+  movieList: ListItem;
 
   @CreateDateColumn({
     type: 'timestamp',

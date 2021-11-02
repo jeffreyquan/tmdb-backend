@@ -13,6 +13,7 @@ import { GenresModule } from './genres/genres.module';
 import { ReviewsModule } from './reviews/reviews.module';
 import { RatingsModule } from './ratings/ratings.module';
 import { LoggerModule } from './logger/logger.module';
+import { ListItemsModule } from './list-items/list-items.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { LoggerModule } from './logger/logger.module';
     ReviewsModule,
     RatingsModule,
     LoggerModule,
+    ListItemsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

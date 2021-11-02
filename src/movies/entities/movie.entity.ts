@@ -13,7 +13,7 @@ import { Rating } from './../../ratings/entities/rating.entity';
 import { Genre } from '../../genres/entities/genre.entity';
 import { Actor } from 'actors/entities/actor.entity';
 import { Director } from 'directors/entities/director.entity';
-import { MovieList } from '../../lists/entities/movie-list.entity';
+import { ListItem } from '../../list-items/entities/list-item.entity';
 import { Optional } from '@nestjs/common';
 
 @Entity()
@@ -52,8 +52,8 @@ export class Movie {
   @OneToMany(() => Rating, (rating) => rating.movie)
   ratings: Rating[];
 
-  @OneToMany(() => MovieList, (movieList) => movieList.movie)
-  movieList: MovieList;
+  @OneToMany(() => ListItem, (movieList) => movieList.movie)
+  movieList: ListItem;
 
   @ManyToMany(() => Actor, (actor) => actor.movies, {
     cascade: true,

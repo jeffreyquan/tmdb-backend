@@ -9,7 +9,7 @@ import { List } from 'lists/entities/list.entity';
 import { Movie } from 'movies/entities/movie.entity';
 
 @Entity()
-export class MovieList {
+export class ListItem {
   @PrimaryGeneratedColumn()
   id: number;
 
