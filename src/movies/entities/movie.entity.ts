@@ -13,7 +13,7 @@ import { Rating } from './../../ratings/entities/rating.entity';
 import { Genre } from '../../genres/entities/genre.entity';
 import { Actor } from 'actors/entities/actor.entity';
 import { Director } from 'directors/entities/director.entity';
-import { MovieList } from './movie-list.entity';
+import { MovieList } from '../../lists/entities/movie-list.entity';
 import { Optional } from '@nestjs/common';
 
 @Entity()

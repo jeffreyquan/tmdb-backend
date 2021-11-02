@@ -6,7 +6,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { List } from 'lists/entities/list.entity';
-import { Movie } from './movie.entity';
+import { Movie } from 'movies/entities/movie.entity';
 
 @Entity()
 export class MovieList {

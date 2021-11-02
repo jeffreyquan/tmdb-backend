@@ -1,4 +1,4 @@
-import { MovieList } from 'movies/entities/movie-list.entity';
+import { MovieList } from 'lists/entities/movie-list.entity';
 import { User } from 'users/entities/user.entity';
 import {
   Column,
