@@ -52,8 +52,8 @@ export class Movie {
   @OneToMany(() => Rating, (rating) => rating.movie)
   ratings: Rating[];
 
-  @OneToMany(() => ListItem, (movieList) => movieList.movie)
-  movieList: ListItem;
+  @OneToMany(() => ListItem, (listItem) => listItem.movie)
+  listItem: ListItem;
 
   @ManyToMany(() => Actor, (actor) => actor.movies, {
     cascade: true,

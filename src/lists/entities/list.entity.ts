@@ -21,8 +21,8 @@ export class List {
   @Column('boolean', { default: false })
   isPublic: boolean;
 
-  @OneToMany(() => ListItem, (movieList) => movieList.list)
-  movieList: ListItem;
+  @OneToMany(() => ListItem, (listItem) => listItem.list)
+  listItem: ListItem;
 
   @CreateDateColumn({
     type: 'timestamp',
