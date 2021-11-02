@@ -16,7 +16,6 @@ export class Logger implements LoggerService {
       return `,"timestamp":"${now}"`;
     },
     level: process.env.NODE_ENV !== 'production' ? 'debug' : 'info',
-    prettyPrint: true,
   };
 
   constructor(@Inject('OPTIONS') private options: LoggerInitOpts) {
@@ -29,7 +28,10 @@ export class Logger implements LoggerService {
         ...initOpts,
         ...pinoOptions,
       },
-      destination,
+      pino.transport({
+        target: 'pino-pretty',
+        options: { colorize: true },
+      }),
     );
   }
 
