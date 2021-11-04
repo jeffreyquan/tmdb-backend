@@ -5,7 +5,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from 'users/entities/user.entity';
 import { ListItem } from 'list-items/entities/list-item.entity';
 import { List } from './entities/list.entity';
-
 @Module({
   imports: [TypeOrmModule.forFeature([List, User, ListItem])],
   providers: [ListsService],
