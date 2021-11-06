@@ -13,7 +13,6 @@ import { SearchResponseInterceptor } from './interceptors/search-response.interc
 import { MoviesService } from './movies.service';
 import { SearchQueryDto } from './dto/search-query.dto';
 import { Logger } from 'logger';
-import { customizeError } from 'custom-errors/customize-error';
 
 @ApiTags('movie')
 @Controller('movies')
