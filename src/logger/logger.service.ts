@@ -20,7 +20,7 @@ export class Logger implements LoggerService {
 
   constructor(@Inject('OPTIONS') private options: LoggerInitOpts) {
     const { initOpts } = Logger;
-    const { destination, context, ...pinoOptions } = options;
+    const { context, ...pinoOptions } = options;
 
     this.context = context;
     this.logger = pino(

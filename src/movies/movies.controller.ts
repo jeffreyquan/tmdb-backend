@@ -2,6 +2,7 @@ import {
   Controller,
   Delete,
   Get,
+  Headers,
   Param,
   ParseIntPipe,
   Query,
@@ -12,6 +13,7 @@ import { SearchResponseInterceptor } from './interceptors/search-response.interc
 import { MoviesService } from './movies.service';
 import { SearchQueryDto } from './dto/search-query.dto';
 import { Logger } from 'logger';
+import { customizeError } from 'custom-errors/customize-error';
 
 @ApiTags('movie')
 @Controller('movies')
@@ -35,8 +37,22 @@ export class MoviesController {
   }
 
   @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.moviesService.findOrCreateOne(id);
+  async findOne(
+    @Headers() { trackingId }: { trackingId: string },
+    @Param('id', ParseIntPipe) id: number,
+  ) {
+    try {
+      this.logger.log(`fetching movie with id ${id}`, trackingId);
+
+      const movie = await this.moviesService.findOrCreateOne(id);
+
+      this.logger.log(
+        `fetched movie "${movie.title}" with id ${id}`,
+        trackingId,
+      );
+
+      return movie;
+    } catch (err) {}
   }
 
   @Delete(':id')

@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { Logger } from 'logger';
+import { TrackingIdInterceptor } from 'movies/interceptors/tracking-id.interceptor';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
@@ -8,6 +9,7 @@ async function bootstrap() {
     bufferLogs: true,
   });
   app.useLogger(app.get(Logger));
+  app.useGlobalInterceptors(new TrackingIdInterceptor());
   app.enableCors();
   app.setGlobalPrefix('api');
 
