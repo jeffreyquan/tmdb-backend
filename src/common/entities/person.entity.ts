@@ -24,7 +24,7 @@ export abstract class Person {
   @Column({ nullable: true })
   placeOfBirth: string;
 
-  @Column()
+  @Column({ nullable: true })
   photo: string;
 
   @Column({ nullable: true })

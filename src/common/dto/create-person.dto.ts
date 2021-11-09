@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNumber, IsString } from 'class-validator';
+import { IsNumber, IsOptional, IsString } from 'class-validator';
 
 export abstract class CreatePersonDto {
   @ApiProperty({ description: 'We use the TMDB ID' })
@@ -28,7 +28,7 @@ export abstract class CreatePersonDto {
 
   @ApiProperty({ description: 'Photo' })
   @IsString()
-  readonly photo: string;
+  readonly photo: string | null;
 
   @ApiProperty({ description: 'ID to link to IMDB' })
   @IsString()
