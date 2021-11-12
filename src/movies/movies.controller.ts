@@ -13,6 +13,7 @@ import { SearchResponseInterceptor } from './interceptors/search-response.interc
 import { MoviesService } from './movies.service';
 import { SearchQueryDto } from './dto/search-query.dto';
 import { Logger } from 'logger';
+import { customizeError } from 'custom-errors/customize-error';
 
 @ApiTags('movie')
 @Controller('movies')
@@ -40,9 +41,9 @@ export class MoviesController {
     @Headers() { trackingId }: { trackingId: string },
     @Param('id', ParseIntPipe) id: number,
   ) {
-    try {
-      this.logger.log(`fetching movie with id ${id}`, trackingId);
+    this.logger.log(`fetching movie with id ${id}`, trackingId);
 
+    try {
       const movie = await this.moviesService.findOrCreateOne(id);
 
       this.logger.log(
@@ -51,7 +52,9 @@ export class MoviesController {
       );
 
       return movie;
-    } catch (err) {}
+    } catch (err) {
+      throw customizeError(err, null, trackingId);
+    }
   }
 
   @Delete(':id')

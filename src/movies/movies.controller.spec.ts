@@ -3,11 +3,13 @@ import {
   mockSearchQuery,
   mockMovieId,
   mockMovie,
+  mockTrackingId,
 } from 'mocks/movie/mock-data';
 import { MaybeMockedDeep } from 'ts-jest/dist/utils/testing';
 import { Test, TestingModule } from '@nestjs/testing';
 import { MoviesController } from './movies.controller';
 import { MoviesService } from './movies.service';
+import { Logger } from 'logger';
 
 describe('MoviesController', () => {
   let controller: MoviesController;
@@ -21,6 +23,12 @@ describe('MoviesController', () => {
           useFactory: () => ({
             search: jest.fn(() => mockSearchResponse),
             findOrCreateOne: jest.fn(() => mockMovie),
+          }),
+        },
+        {
+          provide: Logger,
+          useFactory: () => ({
+            log: jest.fn(),
           }),
         },
       ],
@@ -59,7 +67,7 @@ describe('MoviesController', () => {
     });
 
     it('should return movie details', async () => {
-      await controller.findOne(mockMovieId);
+      await controller.findOne({ trackingId: mockTrackingId }, mockMovieId);
 
       expect(service.findOrCreateOne).toHaveBeenCalledTimes(1);
 
