@@ -11,6 +11,7 @@ import { ActorsService } from 'actors/actors.service';
 import { of } from 'rxjs';
 import {
   mockMovie,
+  mockMovieCreditsResponse,
   mockMovieDetailsResponse,
   mockMovieId,
 } from 'mocks/movie/mock-data';
@@ -87,6 +88,22 @@ describe('MoviesService', () => {
       );
 
       expect(result).toEqual(mockMovieDetailsResponse);
+    });
+  });
+
+  describe('fetchMovieCredits', () => {
+    it('should return a promise of the credits of a single movie', async () => {
+      spyHttpService.get.mockImplementation(() => of(mockMovieCreditsResponse));
+
+      const result = await service.fetchMovieCredits(mockMovieId);
+
+      expect(spyHttpService.get).toHaveBeenCalledTimes(1);
+
+      expect(spyHttpService.get).toHaveBeenCalledWith(
+        `${endpoints.MOVIE}/${mockMovieId}/credits`,
+      );
+
+      expect(result).toEqual(mockMovieCreditsResponse);
     });
   });
 });
