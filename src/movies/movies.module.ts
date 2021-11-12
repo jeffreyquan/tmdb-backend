@@ -14,6 +14,7 @@ import { ActorsModule } from 'actors/actors.module';
 import { Rating } from 'ratings/entities/rating.entity';
 import { RatingsModule } from 'ratings/ratings.module';
 import { LoggerModule } from 'logger';
+import { PROVIDER_EXCEPTION_FILTERS } from 'filters';
 
 // https://docs.nestjs.com/techniques/http-module
 // To use process.env here, we need to use registerAsync
@@ -33,6 +34,6 @@ import { LoggerModule } from 'logger';
     }),
   ],
   controllers: [MoviesController],
-  providers: [MoviesService],
+  providers: [MoviesService, ...PROVIDER_EXCEPTION_FILTERS],
 })
 export class MoviesModule {}
