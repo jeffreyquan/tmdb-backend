@@ -34,6 +34,11 @@ export class MovieSearchResult {
   @Exclude()
   readonly original_title: string;
 
+  @Transform(({ value }) =>
+    value
+      ? `https://www.themoviedb.org/t/p/w600_and_h900_bestv2${value}`
+      : value,
+  )
   @Expose({ name: 'backdrop_path' })
   readonly backdrop: string;
 
