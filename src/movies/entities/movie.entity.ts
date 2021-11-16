@@ -46,17 +46,20 @@ export class Movie {
   @ManyToOne(() => Director, (director) => director.movies)
   director: Director;
 
-  @ManyToMany(() => Genre, (genre) => genre.movies)
+  @ManyToMany(() => Genre, (genre) => genre.movies, { onDelete: 'CASCADE' })
   genres: Genre[];
 
-  @OneToMany(() => Rating, (rating) => rating.movie)
+  @OneToMany(() => Rating, (rating) => rating.movie, { onDelete: 'CASCADE' })
   ratings: Rating[];
 
-  @OneToMany(() => ListItem, (listItem) => listItem.movie)
+  @OneToMany(() => ListItem, (listItem) => listItem.movie, {
+    onDelete: 'CASCADE',
+  })
   listItem: ListItem;
 
   @ManyToMany(() => Actor, (actor) => actor.movies, {
     cascade: true,
+    onDelete: 'CASCADE',
   })
   @JoinTable()
   actors: Actor[];

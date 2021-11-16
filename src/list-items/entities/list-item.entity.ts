@@ -15,11 +15,15 @@ export class ListItem {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => List)
+  @ManyToOne(() => List, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'list_id' })
   list: List;
 
-  @ManyToOne(() => Movie)
+  @ManyToOne(() => Movie, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'movie_id' })
   movie: Movie;
 
