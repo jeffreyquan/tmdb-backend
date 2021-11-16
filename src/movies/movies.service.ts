@@ -87,8 +87,12 @@ export class MoviesService {
       title,
       overview,
       duration: runtime,
-      backdrop: `https://image.tmdb.org/t/p/w500/${backdrop_path}`,
-      poster: `https://image.tmdb.org/t/p/w500/${poster_path}`,
+      backdrop: backdrop_path
+        ? `https://image.tmdb.org/t/p/w500/${backdrop_path}`
+        : null,
+      poster: poster_path
+        ? `https://image.tmdb.org/t/p/w500/${poster_path}`
+        : null,
       imdbId: imdb_id,
       genres,
       releaseDate: release_date,
