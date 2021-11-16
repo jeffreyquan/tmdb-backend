@@ -14,6 +14,7 @@ import { GenresService } from 'genres/genres.service';
 import { ActorsService } from 'actors/actors.service';
 import { MovieDetails } from './dto/movie-details';
 import { MovieCredits } from './dto/movie-credits';
+import { tmdbApiHeaders } from 'config/tmdb.config';
 
 @Injectable()
 export class MoviesService {
@@ -46,12 +47,14 @@ export class MoviesService {
   }
 
   async fetchMovieDetails(id: number): Promise<AxiosResponse<MovieDetails>> {
-    return firstValueFrom(this.httpService.get(`${endpoints.MOVIE}/${id}`));
+    return firstValueFrom(
+      this.httpService.get(`${endpoints.MOVIE}/${id}`, tmdbApiHeaders),
+    );
   }
 
   async fetchMovieCredits(id: number): Promise<AxiosResponse<MovieCredits>> {
     return firstValueFrom(
-      this.httpService.get(`${endpoints.MOVIE}/${id}/credits`),
+      this.httpService.get(`${endpoints.MOVIE}/${id}/credits`, tmdbApiHeaders),
     );
   }
 

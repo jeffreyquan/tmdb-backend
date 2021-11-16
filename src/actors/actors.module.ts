@@ -4,15 +4,9 @@ import { ActorsController } from './actors.controller';
 import { Module } from '@nestjs/common';
 import { ActorsService } from './actors.service';
 import { Actor } from './entities/actor.entity';
-import tmdbConfig from 'config/tmdb.config';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([Actor]),
-    HttpModule.registerAsync({
-      useFactory: tmdbConfig,
-    }),
-  ],
+  imports: [TypeOrmModule.forFeature([Actor]), HttpModule],
   controllers: [ActorsController],
   providers: [ActorsService],
   exports: [ActorsService],

@@ -6,6 +6,7 @@ import { HttpService } from '@nestjs/axios';
 import { CreateDirectorDto } from './dto/create-director.dto';
 import { Director } from './entities/director.entity';
 import { endpoints } from 'config/tmdb-endpoints.config';
+import { tmdbApiHeaders } from 'config/tmdb.config';
 
 @Injectable()
 export class DirectorsService {
@@ -21,7 +22,7 @@ export class DirectorsService {
 
   async fetchDirectorFromTMDB(id: number): Promise<CreateDirectorDto> {
     const response = await firstValueFrom(
-      this.httpService.get(`${endpoints.PERSON_DETAILS}/${id}`),
+      this.httpService.get(`${endpoints.PERSON_DETAILS}/${id}`, tmdbApiHeaders),
     );
 
     const {

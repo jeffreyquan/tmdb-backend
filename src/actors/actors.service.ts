@@ -6,6 +6,7 @@ import { endpoints } from 'config/tmdb-endpoints.config';
 import { Repository } from 'typeorm';
 import { CreateActorDto } from './dto/create-actor.dto';
 import { Actor } from './entities/actor.entity';
+import { tmdbApiHeaders } from 'config/tmdb.config';
 
 @Injectable()
 export class ActorsService {
@@ -21,7 +22,7 @@ export class ActorsService {
 
   async fetchActorFromTMDB(id: number): Promise<CreateActorDto> {
     const response = await firstValueFrom(
-      this.httpService.get(`${endpoints.PERSON_DETAILS}/${id}`),
+      this.httpService.get(`${endpoints.PERSON_DETAILS}/${id}`, tmdbApiHeaders),
     );
 
     const {
