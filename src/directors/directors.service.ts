@@ -42,7 +42,9 @@ export class DirectorsService {
       dateOfBirth: birthday,
       dateOfDeath: deathday,
       placeOfBirth: place_of_birth,
-      photo: `https://image.tmdb.org/t/p/w500/${profile_path}`,
+      photo: profile_path
+        ? `https://image.tmdb.org/t/p/w500/${profile_path}`
+        : null,
       biography,
       imdbId: imdb_id,
     };
