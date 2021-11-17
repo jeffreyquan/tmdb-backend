@@ -43,10 +43,13 @@ export class Movie {
   @Column()
   imdbId: string;
 
-  @ManyToOne(() => Director, (director) => director.movies)
+  @ManyToOne(() => Director, (director) => director.movies, { cascade: true })
   director: Director;
 
-  @ManyToMany(() => Genre, (genre) => genre.movies, { onDelete: 'CASCADE' })
+  @ManyToMany(() => Genre, (genre) => genre.movies, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
   genres: Genre[];
 
   @OneToMany(() => Rating, (rating) => rating.movie, { onDelete: 'CASCADE' })

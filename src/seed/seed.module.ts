@@ -1,5 +1,8 @@
+import { DirectorsModule } from './../directors/directors.module';
+import { GenresModule } from './../genres/genres.module';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ActorsModule } from 'actors/actors.module';
 import { Actor } from 'actors/entities/actor.entity';
 import { Director } from 'directors/entities/director.entity';
 import { Genre } from 'genres/entities/genre.entity';
@@ -14,6 +17,9 @@ import { SeedService } from './seed.service';
 
 @Module({
   imports: [
+    ActorsModule,
+    DirectorsModule,
+    GenresModule,
     MoviesModule,
     TypeOrmModule.forFeature([
       Actor,
