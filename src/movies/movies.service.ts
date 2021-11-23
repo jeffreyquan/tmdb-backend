@@ -2,9 +2,15 @@ import { DirectorsService } from './../directors/directors.service';
 import { firstValueFrom, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { HttpService } from '@nestjs/axios';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  CACHE_MANAGER,
+  Inject,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AxiosResponse } from 'axios';
+import { Cache } from 'cache-manager';
 import { Repository } from 'typeorm';
 import { endpoints } from './config/endpoints';
 import { CreateMovieDto } from './dto/create-movie.dto';
@@ -19,6 +25,7 @@ import { tmdbApiHeaders } from 'config/tmdb.config';
 @Injectable()
 export class MoviesService {
   constructor(
+    @Inject(CACHE_MANAGER) private cacheManager: Cache,
     @InjectRepository(Movie)
     private readonly movieRepository: Repository<Movie>,
     private genresService: GenresService,
@@ -31,13 +38,25 @@ export class MoviesService {
     return this.movieRepository.find();
   }
 
-  search({
-    page = 1,
-    query,
-  }: SearchQueryDto): Observable<AxiosResponse<any[]>> {
-    return this.httpService
-      .get(`${endpoints.SEARCH}?query=${query}&page=${page}`)
-      .pipe(map((response) => response.data));
+  async search({ page = 1, query }: SearchQueryDto): Promise<any> {
+    let results;
+
+    results = await this.cacheManager.get(query);
+
+    if (results) {
+      return JSON.parse(results as string);
+    }
+
+    results = await firstValueFrom(
+      this.httpService.get(
+        `${endpoints.SEARCH}?query=${query}&page=${page}`,
+        tmdbApiHeaders,
+      ),
+    );
+
+    await this.cacheManager.set(query, JSON.stringify(results.data));
+
+    return results.data;
   }
 
   fetchPopular(): Observable<AxiosResponse<any[]>> {

@@ -3,7 +3,7 @@ import { ListsModule } from './../lists/lists.module';
 import { DirectorsModule } from './../directors/directors.module';
 import { GenresModule } from './../genres/genres.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Module } from '@nestjs/common';
+import { CacheModule, Module } from '@nestjs/common';
 import { MoviesService } from './movies.service';
 import { Movie } from './entities/movie.entity';
 import { MoviesController } from './movies.controller';
@@ -15,8 +15,6 @@ import { RatingsModule } from 'ratings/ratings.module';
 import { LoggerModule } from 'logger';
 import { PROVIDER_EXCEPTION_FILTERS } from 'filters';
 
-// https://docs.nestjs.com/techniques/http-module
-// To use process.env here, we need to use registerAsync
 @Module({
   imports: [
     ActorsModule,
@@ -29,6 +27,9 @@ import { PROVIDER_EXCEPTION_FILTERS } from 'filters';
       context: 'Movie Service',
     }),
     HttpModule,
+    CacheModule.register({
+      ttl: parseInt(process.env.CACHE_TIME_TO_LIVE),
+    }),
   ],
   controllers: [MoviesController],
   providers: [MoviesService, ...PROVIDER_EXCEPTION_FILTERS],
