@@ -27,6 +27,13 @@ export class ListItem {
   @JoinColumn({ name: 'movie_id' })
   movie: Movie;
 
+  /**
+   * Show movieId without loading whole movie
+   * https://typeorm.io/#/relations-faq/how-to-use-relation-id-without-joining-relation
+   *  @Column({ nullable: true })
+  movieId: number;
+   */
+
   @Column('boolean', { default: false })
   hasWatched: boolean;
 }
