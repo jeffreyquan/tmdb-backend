@@ -21,6 +21,9 @@ export class ListItem {
   @JoinColumn({ name: 'list_id' })
   list: List;
 
+  @Column({ nullable: true })
+  listId: number;
+
   @ManyToOne(() => Movie, {
     onDelete: 'CASCADE',
   })
