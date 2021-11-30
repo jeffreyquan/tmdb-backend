@@ -1,7 +1,10 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
+  Param,
+  Patch,
   Post,
   Request,
   UseGuards,
@@ -44,5 +47,35 @@ export class ListItemsController {
     );
 
     return await this.listItemsService.getAll(userId);
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Patch(':id')
+  update(@Request() req, @Param('id') id: string) {
+    const userId = req.user.sub;
+
+    this.logger.log(
+      `updating watched status of list item belonging to user with id ${userId}`,
+    );
+
+    return this.listItemsService.update({
+      listItemId: id,
+      userId,
+    });
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Delete(':id')
+  remove(@Request() req, @Param('id') id: string) {
+    const userId = req.user.sub;
+
+    this.logger.log(
+      `removing movie from list belonging to user with id ${userId}`,
+    );
+
+    return this.listItemsService.remove({
+      listItemId: id,
+      userId,
+    });
   }
 }

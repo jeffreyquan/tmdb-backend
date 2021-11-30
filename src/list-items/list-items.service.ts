@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Movie } from 'movies/entities/movie.entity';
 import { Repository } from 'typeorm';
@@ -18,6 +22,18 @@ export class ListItemsService {
     private readonly listItemRepository: Repository<ListItem>,
   ) {}
 
+  async findOne(id: string) {
+    const listItem = await this.listItemRepository.findOne(id, {
+      relations: ['movie'],
+    });
+
+    if (!listItem) {
+      throw new NotFoundException(`List item #${id} not found`);
+    }
+
+    return listItem;
+  }
+
   async create(createListItemDto: CreateListItemDto) {
     const { movieId, userId } = createListItemDto;
 
@@ -33,6 +49,43 @@ export class ListItemsService {
     });
 
     return this.listItemRepository.save(listItem);
+  }
+
+  async remove({ listItemId, userId }: { listItemId: string; userId: string }) {
+    const list = await this.getUserList(userId);
+
+    const listItem = await this.findOne(listItemId);
+
+    const listItemBelongsToUser = listItem.listId === list.id;
+
+    if (!listItemBelongsToUser) {
+      throw new ForbiddenException(
+        `List item #${listItemId} does not belong to the user`,
+      );
+    }
+
+    return this.listItemRepository.remove(listItem);
+  }
+
+  async update({ listItemId, userId }: { listItemId: string; userId: string }) {
+    const list = await this.getUserList(userId);
+
+    const listItem = await this.findOne(listItemId);
+
+    const listItemBelongsToUser = listItem.listId === list.id;
+
+    if (!listItemBelongsToUser) {
+      throw new ForbiddenException(
+        `List item #${listItemId} does not belong to the user`,
+      );
+    }
+
+    const updatedListItem = {
+      ...listItem,
+      hasWatched: !listItem.hasWatched,
+    };
+
+    return this.listItemRepository.save(updatedListItem);
   }
 
   async getUserList(userId: string) {
