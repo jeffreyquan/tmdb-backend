@@ -11,6 +11,8 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiTags } from '@nestjs/swagger';
+import { CurrentUser } from 'common/decorators/user.decorator';
+import { UserGuard } from 'common/guards/user.guard';
 import { Logger } from 'logger';
 import { ListItemsService } from './list-items.service';
 
@@ -37,16 +39,14 @@ export class ListItemsController {
     });
   }
 
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(AuthGuard('jwt'), UserGuard)
   @Get()
-  async getAll(@Request() req) {
-    const userId = req.user.sub;
-
+  async getAll(@CurrentUser() userId) {
     this.logger.log(
       `fetching movies in list belonging to user with id ${userId}`,
     );
 
-    return await this.listItemsService.getAll(userId);
+    return await this.listItemsService.getAll({ userId });
   }
 
   @UseGuards(AuthGuard('jwt'))
