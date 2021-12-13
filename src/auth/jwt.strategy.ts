@@ -32,6 +32,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       username: payload[`${appKey}/username`],
     };
 
-    return !!user;
+    return user;
   }
 }
