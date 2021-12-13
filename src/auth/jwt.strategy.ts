@@ -24,6 +24,14 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   validate(payload: unknown): unknown {
-    return payload;
+    const appKey = process.env.AUTH0_AUDIENCE;
+
+    const user = {
+      email: payload[`${appKey}/email`],
+      email_verified: payload[`${appKey}/email_verified`],
+      username: payload[`${appKey}/username`],
+    };
+
+    return !!user;
   }
 }
