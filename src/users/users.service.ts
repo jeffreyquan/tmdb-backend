@@ -20,4 +20,10 @@ export class UsersService {
 
     return this.userRepository.save(user);
   }
+
+  async findOne(email: string) {
+    return await this.userRepository.findOne({
+      email,
+    });
+  }
 }
