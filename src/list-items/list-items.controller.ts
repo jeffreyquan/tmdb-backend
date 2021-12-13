@@ -26,9 +26,7 @@ export class ListItemsController {
 
   @UseGuards(AuthGuard('jwt'))
   @Post()
-  add(@Request() req, @Body() { movieId }: { movieId: number }) {
-    const userId = req.user.sub;
-
+  add(@CurrentUser() userId, @Body() { movieId }: { movieId: number }) {
     this.logger.log(
       `adding movie with id ${movieId} to the list belonging to user with id ${userId}`,
     );
