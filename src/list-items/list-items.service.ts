@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   ForbiddenException,
   Injectable,
   NotFoundException,
@@ -42,6 +43,14 @@ export class ListItemsService {
     });
 
     const movie = await this.movieRepository.findOne(movieId);
+
+    const existingListItem = await this.listItemRepository.findOne({
+      where: { movie },
+    });
+
+    if (existingListItem) {
+      throw new BadRequestException(`Movie ${movie.id} already exist in list`);
+    }
 
     const listItem = this.listItemRepository.create({
       list: user.list,

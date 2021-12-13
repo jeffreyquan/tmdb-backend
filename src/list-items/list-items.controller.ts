@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  Headers,
   Param,
   Patch,
   Post,
@@ -13,6 +14,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { ApiTags } from '@nestjs/swagger';
 import { CurrentUser } from 'common/decorators/user.decorator';
 import { UserGuard } from 'common/guards/user.guard';
+import { customizeError } from 'custom-errors/customize-error';
 import { Logger } from 'logger';
 import { ListItemsService } from './list-items.service';
 
@@ -24,17 +26,35 @@ export class ListItemsController {
     private readonly listItemsService: ListItemsService,
   ) {}
 
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(AuthGuard('jwt'), UserGuard)
   @Post()
-  add(@CurrentUser() userId, @Body() { movieId }: { movieId: number }) {
-    this.logger.log(
-      `adding movie with id ${movieId} to the list belonging to user with id ${userId}`,
-    );
+  async add(
+    @Headers() headers,
+    @CurrentUser() userId,
+    @Body() { movieId }: { movieId: number },
+  ) {
+    const trackingId = headers.trackingId;
 
-    return this.listItemsService.create({
-      userId,
-      movieId,
-    });
+    try {
+      this.logger.log(
+        `adding movie with id ${movieId} to the list belonging to user with id ${userId}`,
+        trackingId,
+      );
+
+      const listItem = await this.listItemsService.create({
+        userId,
+        movieId,
+      });
+
+      this.logger.log(
+        `added movie with id ${movieId} to the list belonging to user with id ${userId}`,
+        trackingId,
+      );
+
+      return listItem;
+    } catch (e) {
+      throw customizeError(e, `userId: ${userId}`, trackingId);
+    }
   }
 
   @UseGuards(AuthGuard('jwt'), UserGuard)
