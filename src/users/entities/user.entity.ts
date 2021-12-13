@@ -6,21 +6,24 @@ import {
   OneToOne,
   OneToMany,
   UpdateDateColumn,
-  PrimaryColumn,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
 import { List } from 'lists/entities/list.entity';
 import { Rating } from 'ratings/entities/rating.entity';
 
 @Entity()
 export class User {
-  @PrimaryColumn()
-  id: string;
+  @PrimaryGeneratedColumn()
+  id: number;
 
   @Column({ unique: true })
   username: string;
 
   @Column({ unique: true })
   email: string;
+
+  @Column({ default: false })
+  emailVerified: boolean;
 
   @OneToMany(() => Rating, (rating) => rating.user)
   ratings: Rating[];
