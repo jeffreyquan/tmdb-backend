@@ -1,3 +1,4 @@
+import { mockSearchQuery } from './../mocks/movie/mock-data';
 import { MaybeMockedDeep } from 'ts-jest/dist/utils/testing';
 import { HttpService } from '@nestjs/axios';
 import { Repository } from 'typeorm';
@@ -15,6 +16,7 @@ import {
   mockMovieCreditsResponse,
   mockMovieDetailsResponse,
   mockMovieId,
+  mockSearchResponse,
 } from 'mocks/movie/mock-data';
 import { endpoints } from './config/endpoints';
 import { CACHE_MANAGER } from '@nestjs/common';
@@ -67,6 +69,7 @@ describe('MoviesService', () => {
     service = module.get<MoviesService>(MoviesService);
     repo = module.get<Repository<Movie>>(getRepositoryToken(Movie));
     spyHttpService = module.get(HttpService);
+    spyCache = module.get(CACHE_MANAGER);
   });
 
   it('should be defined', () => {
@@ -127,6 +130,23 @@ describe('MoviesService', () => {
       );
 
       expect(result).toEqual(mockMovieCreditsResponse);
+    });
+  });
+
+  describe('search', () => {
+    afterEach(() => {
+      spyHttpService.get.mockClear();
+      spyCache.get.mockReset();
+    });
+
+    it('should fetch movie search results from cache if present', async () => {
+      spyCache.get.mockResolvedValue(JSON.stringify(mockSearchResponse));
+
+      const result = await service.search(mockSearchQuery);
+      expect(spyHttpService.get).toHaveBeenCalledTimes(0);
+      expect(spyCache.get).toHaveBeenCalledTimes(1);
+      expect(spyCache.get).toHaveBeenCalledWith(mockSearchQuery.query);
+      expect(result).toEqual(mockSearchResponse);
     });
   });
 });
