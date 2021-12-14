@@ -2,6 +2,7 @@ import { MaybeMockedDeep } from 'ts-jest/dist/utils/testing';
 import { HttpService } from '@nestjs/axios';
 import { Repository } from 'typeorm';
 import { Test, TestingModule } from '@nestjs/testing';
+import { Cache } from 'cache-manager';
 import { MoviesService } from './movies.service';
 import { Movie } from './entities/movie.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
@@ -16,11 +17,13 @@ import {
   mockMovieId,
 } from 'mocks/movie/mock-data';
 import { endpoints } from './config/endpoints';
+import { CACHE_MANAGER } from '@nestjs/common';
 
 describe('MoviesService', () => {
   let service: MoviesService;
   let repo: Repository<Movie>;
   let spyHttpService: MaybeMockedDeep<HttpService>;
+  let spyCache: MaybeMockedDeep<Cache>;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -48,6 +51,14 @@ describe('MoviesService', () => {
           provide: HttpService,
           useFactory: () => ({
             get: jest.fn(),
+          }),
+        },
+        {
+          provide: CACHE_MANAGER,
+          useFactory: () => ({
+            get: jest.fn(),
+            set: jest.fn(),
+            del: jest.fn(),
           }),
         },
       ],
@@ -85,6 +96,12 @@ describe('MoviesService', () => {
 
       expect(spyHttpService.get).toHaveBeenCalledWith(
         `${endpoints.MOVIE}/${mockMovieId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${process.env.TMDB_API_TOKEN}`,
+            'Content-Type': 'application/json;charset=utf-8',
+          },
+        },
       );
 
       expect(result).toEqual(mockMovieDetailsResponse);
@@ -101,6 +118,12 @@ describe('MoviesService', () => {
 
       expect(spyHttpService.get).toHaveBeenCalledWith(
         `${endpoints.MOVIE}/${mockMovieId}/credits`,
+        {
+          headers: {
+            Authorization: `Bearer ${process.env.TMDB_API_TOKEN}`,
+            'Content-Type': 'application/json;charset=utf-8',
+          },
+        },
       );
 
       expect(result).toEqual(mockMovieCreditsResponse);
