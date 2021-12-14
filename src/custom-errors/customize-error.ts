@@ -11,7 +11,7 @@ import { PROVIDER_SOURCE } from 'constants/error-sources';
 import { mapSystemErrors } from 'custom-errors/map-system-errors';
 
 const mapMovieProviderErrors = (error): CustomError[] => {
-  const providerErrors = error.response?.data.errors || [];
+  const providerErrors = error.response?.data?.errors || [];
 
   return providerErrors.map((err): CustomError => {
     return {
@@ -47,6 +47,7 @@ export const customizeError = (
       ? `${err.error.message} for ${maskedValue}`
       : err.error.message;
     logger.error(logMessage, null, trackingId);
+    return err;
   }
 
   let trace = err.message;
@@ -55,14 +56,14 @@ export const customizeError = (
   const errors: CustomError[] = mapMovieProviderErrors(err);
 
   const exceptions: MovieExceptions = {
-    400: new InvalidPayloadException(errors, trackingId, maskedValue),
-    401: new UnauthorizedException(errors, trackingId, maskedValue),
-    404: new EntityDoesNotExistException(errors, trackingId, maskedValue),
-    500: new DefaultErrorException(errors, trackingId, maskedValue),
+    400: new InvalidPayloadException(errors, maskedValue, trackingId),
+    401: new UnauthorizedException(errors, maskedValue, trackingId),
+    404: new EntityDoesNotExistException(errors, maskedValue, trackingId),
+    500: new DefaultErrorException(errors, maskedValue, trackingId),
     default: new DefaultErrorException(
       mapSystemErrors(),
-      trackingId,
       maskedValue,
+      trackingId,
     ),
   };
 
